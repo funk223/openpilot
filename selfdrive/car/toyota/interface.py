@@ -227,7 +227,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kf = 0.00007
 
      elif candidate == CAR.OLD_CAR:
-       stop_and_go = False
+       stop_and_go = True
        ret.safetyParam = 100
        ret.wheelbase = 2.455
        ret.steerRatio = 17.
