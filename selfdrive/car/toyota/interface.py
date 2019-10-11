@@ -28,7 +28,7 @@ class CarInterface(CarInterfaceBase):
     self.cp = get_can_parser(CP)
     self.cp_cam = get_cam_can_parser(CP)
 
-    self.forwarding_camera = False
+    self.forwarding_camera = True
 
     self.CC = None
     if CarController is not None:
