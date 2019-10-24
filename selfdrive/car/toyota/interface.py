@@ -386,8 +386,8 @@ class CarInterface(CarInterfaceBase):
     if self.cp_cam.can_valid:
       self.forwarding_camera = True
 
-    if self.cp_cam.can_invalid_cnt >= 100 and self.CP.enableCamera:
-      events.append(create_event('invalidGiraffeToyota', [ET.PERMANENT]))
+    #if self.cp_cam.can_invalid_cnt >= 100 and self.CP.enableCamera:
+    #  events.append(create_event('invalidGiraffeToyota', [ET.PERMANENT]))
     if not ret.gearShifter == GearShifter.drive and self.CP.enableDsu:
       events.append(create_event('wrongGear', [ET.NO_ENTRY, ET.SOFT_DISABLE]))
     if ret.doorOpen:
