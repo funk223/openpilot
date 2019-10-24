@@ -227,20 +227,20 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kf = 0.00007
 
     elif candidate == CAR.OLD_CAR:
-       stop_and_go = True
-       ret.safetyParam = 100
-       ret.wheelbase = 2.455
-       ret.steerRatio = 16.0
-       tire_stiffness_factor = 0.444
-       ret.mass = 6200.0 * CV.LB_TO_KG + STD_CARGO_KG
-       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.1], [0.04]]
-       ret.lateralTuning.pid.kf = 0.00004
+      stop_and_go = True
+      ret.safetyParam = 100
+      ret.wheelbase = 2.455
+      ret.steerRatio = 16.0
+      tire_stiffness_factor = 0.444
+      ret.mass = 6200.0 * CV.LB_TO_KG + STD_CARGO_KG
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.1], [0.04]]
+      ret.lateralTuning.pid.kf = 0.00004
 
     ret.steerRateCost = 1.
     if candidate == CAR.OLD_CAR:
-       ret.centerToFront = ret.wheelbase * 0.5
+      ret.centerToFront = ret.wheelbase * 0.5
     else:
-       ret.centerToFront = ret.wheelbase * 0.44
+      ret.centerToFront = ret.wheelbase * 0.44
 
     # TODO: get actual value, for now starting with reasonable value for
     # civic and scaling by mass and wheelbase
