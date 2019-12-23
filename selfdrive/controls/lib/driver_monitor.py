@@ -3,6 +3,8 @@ from common.realtime import DT_CTRL, DT_DMON
 from selfdrive.controls.lib.drive_helpers import create_event, EventTypes as ET
 from common.filter_simple import FirstOrderFilter
 from common.stat_live import RunningStatFilter
+from common.params import Params
+params = Params()
 
 _AWARENESS_TIME = 100.  # 1.6 minutes limit without user touching steering wheels make the car enter a terminal status
 _AWARENESS_PRE_TIME_TILL_TERMINAL = 25.  # a first alert is issued 25s before expiration
@@ -94,6 +96,12 @@ class DriverStatus():
     self.is_rhd_region = False
     self.is_rhd_region_checked = False
 
+    # dragonpilot
+    self.awareness_time = float(params.get("DragonSteeringMonitorTimer", encoding='utf8'))
+    self.awareness_time = 86400 if self.awareness_time <= 0. else self.awareness_time * 60.
+    self.dragon_enable_driver_safety_check = False if params.get("DragonEnableDriverSafetyCheck", encoding='utf8') == "0" else True
+    self.dragon_enable_driver_monitoring = False if params.get("DragonEnableDriverMonitoring", encoding='utf8') == "0" else True
+
     self._set_timers(active_monitoring=True)
 
   def _set_timers(self, active_monitoring):
@@ -121,9 +129,9 @@ class DriverStatus():
         self.awareness_active = self.awareness
         self.awareness = self.awareness_passive
 
-      self.threshold_pre = _AWARENESS_PRE_TIME_TILL_TERMINAL / _AWARENESS_TIME
-      self.threshold_prompt = _AWARENESS_PROMPT_TIME_TILL_TERMINAL / _AWARENESS_TIME
-      self.step_change = DT_CTRL / _AWARENESS_TIME
+      self.threshold_pre = _AWARENESS_PRE_TIME_TILL_TERMINAL / self.awareness_time
+      self.threshold_prompt = _AWARENESS_PROMPT_TIME_TILL_TERMINAL / self.awareness_time
+      self.step_change = DT_CTRL / self.awareness_time
       self.active_monitoring_mode = False
 
   def _is_driver_distracted(self, pose, blink):
@@ -155,6 +163,9 @@ class DriverStatus():
     self.pose.roll, self.pose.pitch, self.pose.yaw = head_orientation_from_descriptor(driver_monitoring.faceOrientation, driver_monitoring.facePosition, cal_rpy)
     self.blink.left_blink = driver_monitoring.leftBlinkProb * (driver_monitoring.leftEyeProb>_EYE_THRESHOLD)
     self.blink.right_blink = driver_monitoring.rightBlinkProb * (driver_monitoring.rightEyeProb>_EYE_THRESHOLD)
+    # we simply set to rhd to avoid driver monitoring
+    if not self.dragon_enable_driver_monitoring:
+      self.is_rhd_region = True
     self.face_detected = driver_monitoring.faceProb > _FACE_THRESHOLD and not self.is_rhd_region
 
     self.driver_distracted = self._is_driver_distracted(self.pose, self.blink)>0
@@ -173,7 +184,7 @@ class DriverStatus():
     self._set_timers(self.face_detected)
 
   def update(self, events, driver_engaged, ctrl_active, standstill):
-    if (driver_engaged and self.awareness > 0) or not ctrl_active:
+    if (driver_engaged and self.awareness > 0) or not ctrl_active or not self.dragon_enable_driver_safety_check:
       # reset only when on disengagement if red reached
       self.awareness = 1.
       self.awareness_active = 1.
