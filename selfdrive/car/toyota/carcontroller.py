@@ -8,6 +8,9 @@ from selfdrive.car.toyota.toyotacan import make_can_msg, create_video_target,\
                                            create_acc_cancel_command, create_fcw_command
 from selfdrive.car.toyota.values import CAR, ECU, STATIC_MSGS, TSS2_CAR
 from selfdrive.can.packer import CANPacker
+from common.params import Params
+params = Params()
+
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
@@ -114,9 +117,24 @@ class CarController():
 
     self.packer = CANPacker(dbc_name)
 
+    # dragonpilot
+    self.turning_signal_timer = 0
+    self.dragon_enable_steering_on_signal = False
+    # self.dragon_allow_gas = False
+    self.dragon_lat_ctrl = True
+    self.dragon_lane_departure_warning = True
+    self.dragon_toyota_sng_mod = False
+
   def update(self, enabled, CS, frame, actuators,
              pcm_cancel_cmd, hud_alert, forwarding_camera, left_line,
              right_line, lead, left_lane_depart, right_lane_depart):
+    # dragonpilot, don't check for param too often as it's a kernel call
+    if frame % 500 == 0:
+      self.dragon_enable_steering_on_signal = True if params.get("DragonEnableSteeringOnSignal", encoding='utf8') == "1" else False
+      # self.dragon_allow_gas = True if params.get("DragonAllowGas", encoding='utf8') == "1" else False
+      self.dragon_lat_ctrl = False if params.get("DragonLatCtrl", encoding='utf8') == "0" else True
+      self.dragon_lane_departure_warning = False if params.get("DragonToyotaLaneDepartureWarning", encoding='utf8') == "0" else True
+      self.dragon_toyota_sng_mod = True if params.get("DragonToyotaSnGMod", encoding='utf8') == "1" else False
 
     # *** compute control surfaces ***
 
@@ -144,7 +162,7 @@ class CarController():
       self.last_fault_frame = frame
 
     # Cut steering for 2s after fault
-    if not enabled or (frame - self.last_fault_frame < 200):
+    if not enabled: # or (frame - self.last_fault_frame < 200):
       apply_steer = 0
       apply_steer_req = 0
     else:
@@ -175,7 +193,7 @@ class CarController():
       pcm_cancel_cmd = 1
 
     # on entering standstill, send standstill request
-    if CS.standstill and not self.last_standstill:
+    if not self.dragon_toyota_sng_mod and CS.standstill and not self.last_standstill:
       self.standstill_req = True
     if CS.pcm_acc_status != 8:
       # pcm entered standstill or it's disabled
@@ -187,6 +205,28 @@ class CarController():
     self.last_standstill = CS.standstill
 
     can_sends = []
+
+    # dragonpilot
+    if enabled and (CS.left_blinker_on or CS.right_blinker_on) and self.dragon_enable_steering_on_signal:
+      self.turning_signal_timer = 100
+
+    if self.turning_signal_timer > 0:
+      self.turning_signal_timer -= 1
+      apply_steer_req = 0
+
+    if not self.dragon_lat_ctrl:
+      apply_steer_req = 0
+
+    if CS.v_ego > 12.5 and not enabled:
+      if right_lane_depart and not CS.right_blinker_on:
+        apply_steer = self.last_steer + 3
+        apply_steer = min(apply_steer , 800)
+        apply_steer_req = 1
+
+      if left_lane_depart and not CS.left_blinker_on:
+        apply_steer = self.last_steer - 3
+        apply_steer = max(apply_steer , -800)
+        apply_steer_req = 1
 
     #*** control msgs ***
     #print("steer {0} {1} {2} {3}".format(apply_steer, min_lim, max_lim, CS.steer_torque_motor)
@@ -206,12 +246,25 @@ class CarController():
     elif ECU.APGS in self.fake_ecus:
       can_sends.append(create_ipas_steer_command(self.packer, 0, 0, True))
 
+    # # DragonAllowGas
+    # # if we detect gas pedal pressed, we do not want OP to apply gas or brake
+    # # gasPressed code from interface.py
+    # if CS.CP.enableGasInterceptor:
+    #   # use interceptor values to disengage on pedal press
+    #   gas_pressed = CS.pedal_gas > 15
+    # else:
+    #   gas_pressed = CS.pedal_gas > 0
+    #
+    # if self.dragon_allow_gas and gas_pressed:
+    #   apply_accel = 0
+    #   apply_gas = 0
+    #
     # accel cmd comes from DSU, but we can spam can to cancel the system even if we are using lat only control
     if (frame % 3 == 0 and ECU.DSU in self.fake_ecus) or (pcm_cancel_cmd and ECU.CAM in self.fake_ecus):
       lead = lead or CS.v_ego < 12.    # at low speed we always assume the lead is present do ACC can be engaged
 
       # Lexus IS uses a different cancellation message
-      if pcm_cancel_cmd and CS.CP.carFingerprint == CAR.LEXUS_IS:
+      if pcm_cancel_cmd and CS.CP.carFingerprint in [CAR.LEXUS_IS, CAR.LEXUS_ISH, CAR.LEXUS_GSH]:
         can_sends.append(create_acc_cancel_command(self.packer))
       elif ECU.DSU in self.fake_ecus:
         can_sends.append(create_accel_command(self.packer, apply_accel, pcm_cancel_cmd, self.standstill_req, lead))
@@ -244,8 +297,16 @@ class CarController():
     if pcm_cancel_cmd:
       send_ui = True
 
+    # dragonpilot, lane depart warning mod
+    if self.dragon_lane_departure_warning:
+      dragon_left_lane_depart = left_lane_depart
+      dragon_right_lane_depart = right_lane_depart
+    else:
+      dragon_left_lane_depart = False
+      dragon_right_lane_depart = False
+
     if (frame % 100 == 0 or send_ui) and ECU.CAM in self.fake_ecus:
-      can_sends.append(create_ui_command(self.packer, steer, pcm_cancel_cmd, left_line, right_line, left_lane_depart, right_lane_depart))
+      can_sends.append(create_ui_command(self.packer, steer, pcm_cancel_cmd, left_line, right_line, dragon_left_lane_depart, dragon_right_lane_depart))
 
     if frame % 100 == 0 and ECU.DSU in self.fake_ecus and self.car_fingerprint not in TSS2_CAR:
       can_sends.append(create_fcw_command(self.packer, fcw))
