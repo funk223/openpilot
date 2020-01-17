@@ -8,6 +8,7 @@ from selfdrive.controls.lib.lane_planner import LanePlanner
 from selfdrive.config import Conversions as CV
 import cereal.messaging as messaging
 from cereal import log
+from selfdrive.controls.lib.curvature_learner import CurvatureLearner
 
 LaneChangeState = log.PathPlan.LaneChangeState
 LaneChangeDirection = log.PathPlan.LaneChangeDirection
@@ -53,7 +54,8 @@ class PathPlanner():
 
     self.setup_mpc()
     self.solution_invalid_cnt = 0
-    self.path_offset_i = 0.0
+    self.frame = 0
+    self.curvature_offset = CurvatureLearner(debug=False)
     self.lane_change_state = LaneChangeState.off
     self.lane_change_timer = 0.0
     self.prev_one_blinker = False
@@ -84,7 +86,11 @@ class PathPlanner():
     # Run MPC
     self.angle_steers_des_prev = self.angle_steers_des_mpc
     VM.update_params(sm['liveParameters'].stiffnessFactor, sm['liveParameters'].steerRatio)
-    curvature_factor = VM.curvature_factor(v_ego)
+    if active:
+      curvfac = self.curvature_offset.update(angle_steers - angle_offset, self.LP.d_poly, v_ego)
+    else:
+      curvfac = 0.
+    curvature_factor = VM.curvature_factor(v_ego) + curvfac
 
     self.LP.parse_model(sm['model'])
 
