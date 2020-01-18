@@ -11,23 +11,25 @@ Big thank you goes to @wocsor. He developed the whole thing and modified the cod
 ⚙️ CODE CHANGES ⚙️
 ======================
 
-🔥FIRE🔥 means it's a stock COMMA + OLD_CAR + ADVANCED FEATURES.
+🔥FIRE🔥 = COMMA + OLD_CAR + ADVANCED FEATURES.
 
 CHANGES FOR OLD_CAR:
 
 1. 💧OLD_CAR is in selfdrive/car/toyota (use /Toyota/interface.py for tuning)
 2. 💧CanValid was set to True to avoid can / communication error messages.
-3. 💧It uses the SteeringRatio which is set in interface.py. Vehicle_model.py does not change it anymore.
-4. 💧CAMERA offset is set to 0.00. (Set it back to what ever your EON is mounted in lane_planner.py)
+3. 💧It uses the SteeringRatio which is set in interface.py.
+     Vehicle_model.py does not change it anymore.
+4. 💧CAMERA offset is set to 0.00.
+     (Set it to where ever your EON is mounted in lane_planner.py)
 6. 💧Steering Angle sensor is flipped because it is mounted upside down in my van. 
-   (If yours is mounted the normal way: Delete "-" in Toyota/carstate.py line 166) 
+     (Delete "-" in Toyota/carstate.py line 166 to flip it back) 
 7. 💧It is forced to send GAS_PEDAL command on canID 0x200
 
 FEATURES ADDED:
 
 1. 🔥ZORRO CURVATURE LEARNER
 2. 🔥DEVELOPER UI
-3. 🔥MAPS by @arne182
+3. 🔥MAPS by @arne182 (soon)
 
 OVERVIEW
 ======================
