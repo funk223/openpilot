@@ -31,7 +31,7 @@ FEATURES ADDED:
 2. 🔥DEVELOPER UI
 3. 🔥MAPS by @arne182 (soon)
 
-OVERVIEW
+🚌 OVERVIEW 🚌
 ======================
 
 I think retrofitting and #old_car is the hidden future of openpilot.
@@ -47,9 +47,9 @@ We upgrade cars from zero assistant to level 2 self driving.
 We make driving safe and chill. That's really impressive!
 Let's see where our journey will end. I can think of like a dev-kit with some actuators and interceptors for easy DIY projects.
 Thank you <@Wocsor> for spending so much effort.
-He is doing fundamental research and hacking! 🚙🚌🚎🚐🏎🚗🚛🚚
+He is doing fundamental research and hacking!
 
-HOW TO START
+🛠 HOW TO START 🛠
 ======================
 
 To make openpilot work in an old car, we need to retrofit actuators from supported cars like toyota corolla 2018. Some small ECU needs to be build DIY.
