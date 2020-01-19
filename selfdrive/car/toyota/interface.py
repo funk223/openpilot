@@ -229,10 +229,10 @@ class CarInterface(CarInterfaceBase):
       stop_and_go = True
       ret.safetyParam = 100
       ret.wheelbase = 2.455
-      ret.steerRatio = 13.0
+      ret.steerRatio = op_params.get('steeringRatio', default=13.)
       tire_stiffness_factor = 0.444
       ret.mass = 6200.0 * CV.LB_TO_KG + STD_CARGO_KG
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.05]]
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[op_params.get('lat_P', default=0.3)], [op_params.get('lat_I', default=0.05]]
       ret.lateralTuning.pid.kf = 0.00007   # full torque for 20 deg at 80mph means 0.00007818594
 
     ret.steerRateCost = 1.
