@@ -26,7 +26,10 @@ def read_params(params_file, default_params):
 
 class opParams:
   def __init__(self):
-    self.default_params = {'camera_offset': {'default': 0.06, 'allowed_types': [float, int], 'description': 'Your camera offset to use in lane_planner.py', 'live': True},  # float and int is important
+    self.default_params = {'camera_offset': {'default': 0.00, 'allowed_types': [float, int], 'description': 'Your camera offset to use in lane_planner.py', 'live': True},  # float and int is important
+                           'steeringRatio': {'default':  13., 'allowed_types': [float, int], 'description': 'Steering Ratio', 'live': True},
+                           'lat_P': {'default':  0.3, 'allowed_types': [float, int], 'description': 'Lat tuning P', 'live': True},
+                           'lat_I': {'default':  0.05, 'allowed_types': [float, int], 'description': 'Lat tuning I', 'live': True},
                            'long_P': {'default':  0.5, 'allowed_types': [float, int], 'description': 'Long tuning P', 'live': True},
                            'long_I': {'default':  0.12, 'allowed_types': [float, int], 'description': 'Long tuning I', 'live': True}}
 
