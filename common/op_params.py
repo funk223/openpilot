@@ -27,7 +27,7 @@ def read_params(params_file, default_params):
 class opParams:
   def __init__(self):
     self.default_params = {'camera_offset': {'default': 0.06, 'allowed_types': [float, int], 'description': 'Your camera offset to use in lane_planner.py', 'live': True},  # float and int is important
-                           'non_live_param': {'default': True, 'allowed_types': [bool], 'description': 'Default, allowed types and live parameter should be given for new params.', 'live': False}}
+                           'LONG_P': {'default':  0.5, 'allowed_types': [float, int], 'description': 'Long tuning P', 'live': True}}
 
     self.params = {}
     self.params_file = "/data/op_params.json"
