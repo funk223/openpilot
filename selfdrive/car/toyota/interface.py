@@ -8,7 +8,9 @@ from selfdrive.car.toyota.values import ECU, ECU_FINGERPRINT, CAR, NO_STOP_TIMER
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, is_ecu_disconnected, gen_empty_fingerprint
 from selfdrive.swaglog import cloudlog
 from selfdrive.car.interfaces import CarInterfaceBase
+from common.op_params import opParams
 
+op_params = opParams()
 ButtonType = car.CarState.ButtonEvent.Type
 GearShifter = car.CarState.GearShifter
 
@@ -283,8 +285,8 @@ class CarInterface(CarInterfaceBase):
     if ret.enableGasInterceptor:
       ret.gasMaxBP = [0., 9., 35]
       ret.gasMaxV = [0.2, 0.5, 0.7]
-      ret.longitudinalTuning.kpV = [1.2, 0.8, 0.5]
-      ret.longitudinalTuning.kiV = [0.18, 0.12]
+      ret.longitudinalTuning.kpV = [1.2, 0.8, op_params.get('long_P', default=0.5)]
+      ret.longitudinalTuning.kiV = [0.18, op_params.get('long_I', default=0.12)]
     else:
       ret.gasMaxBP = [0.]
       ret.gasMaxV = [0.5]
