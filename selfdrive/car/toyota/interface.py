@@ -8,9 +8,7 @@ from selfdrive.car.toyota.values import ECU, ECU_FINGERPRINT, CAR, NO_STOP_TIMER
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, is_ecu_disconnected, gen_empty_fingerprint
 from selfdrive.swaglog import cloudlog
 from selfdrive.car.interfaces import CarInterfaceBase
-from common.op_params import opParams
 
-op_params = opParams()
 ButtonType = car.CarState.ButtonEvent.Type
 GearShifter = car.CarState.GearShifter
 
@@ -229,10 +227,10 @@ class CarInterface(CarInterfaceBase):
       stop_and_go = True
       ret.safetyParam = 100
       ret.wheelbase = 2.455
-      ret.steerRatio = op_params.get('steeringRatio', default=13.)
+      ret.steerRatio = 13.0
       tire_stiffness_factor = 0.444
       ret.mass = 6200.0 * CV.LB_TO_KG + STD_CARGO_KG
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[op_params.get('lat_P', default=0.3)], [op_params.get('lat_I', default=0.05]]
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.05]]
       ret.lateralTuning.pid.kf = 0.00007   # full torque for 20 deg at 80mph means 0.00007818594
 
     ret.steerRateCost = 1.
@@ -285,8 +283,8 @@ class CarInterface(CarInterfaceBase):
     if ret.enableGasInterceptor:
       ret.gasMaxBP = [0., 9., 35]
       ret.gasMaxV = [0.2, 0.5, 0.7]
-      ret.longitudinalTuning.kpV = [1.2, 0.8, op_params.get('long_P', default=0.5)]
-      ret.longitudinalTuning.kiV = [0.18, op_params.get('long_I', default=0.12)]
+      ret.longitudinalTuning.kpV = [1.2, 0.8, 0.5]
+      ret.longitudinalTuning.kiV = [0.18, 0.12]
     else:
       ret.gasMaxBP = [0.]
       ret.gasMaxV = [0.5]
