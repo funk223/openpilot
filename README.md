@@ -38,7 +38,7 @@ to run live tuning, ssh into EON and type in:
 
 `cd /data/openpilot && python op_tune.py`
 
-now it will show you: `
+now it will show you:
 
 ``Welcome to the opParams command line live tuner!
 Choose a parameter to tune:
