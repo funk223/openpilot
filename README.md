@@ -29,7 +29,12 @@ FEATURES ADDED:
 
 1. 🔥ZORRO CURVATURE LEARNER
 2. 🔥DEVELOPER UI
-3. 🔥MAPS by @arne182 (soon)
+3. 🔥LIVE TUNING by ShaneSmiskl
+
+
+LIVE TUNING:
+Live tuning is available for camera_offset, pid lateral, pid longitunal.
+to run live tuning, ssh into EON change directory to `/data/openpilot` and `run python op_tune.py`
 
 🚌 OVERVIEW 🚌
 ======================
