@@ -34,7 +34,32 @@ FEATURES ADDED:
 
 LIVE TUNING:
 Live tuning is available for camera_offset, pid lateral, pid longitunal.
-to run live tuning, ssh into EON change directory to `/data/openpilot` and `run python op_tune.py`
+to run live tuning, ssh into EON and type in: 
+
+`cd /data/openpilot && python op_tune.py`
+
+now it will show you: `
+
+`Welcome to the opParams command line live tuner!`
+`Choose a parameter to tune:`
+`1. camera_offset`
+`2. lat_I`
+`3. lat_P`
+`4. long_I`
+`5. long_P`
+`6. steeringRatio`
+`>>`
+
+`Welcome to the opParams command line live tuner!
+Choose a parameter to tune:
+1. camera_offset
+2. lat_I
+3. lat_P
+4. long_I
+5. long_P
+6. steeringRatio
+>>`
+
 
 🚌 OVERVIEW 🚌
 ======================
