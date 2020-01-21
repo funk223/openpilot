@@ -40,17 +40,7 @@ to run live tuning, ssh into EON and type in:
 
 now it will show you: `
 
-`Welcome to the opParams command line live tuner!`
-`Choose a parameter to tune:`
-`1. camera_offset`
-`2. lat_I`
-`3. lat_P`
-`4. long_I`
-`5. long_P`
-`6. steeringRatio`
-`>>`
-
-`Welcome to the opParams command line live tuner!
+``Welcome to the opParams command line live tuner!
 Choose a parameter to tune:
 1. camera_offset
 2. lat_I
@@ -58,7 +48,7 @@ Choose a parameter to tune:
 4. long_I
 5. long_P
 6. steeringRatio
->>`
+>>``
 
 
 🚌 OVERVIEW 🚌
