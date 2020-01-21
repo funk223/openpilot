@@ -49,7 +49,32 @@ Choose a parameter to tune:
 4. long_I
 5. long_P
 6. steeringRatio
->>```
+>>
+````
+
+Now you can enter the Numer of the Value you want to tune. Let´s say we want to set steeringRatio (6).
+Press enter to confirm. The Programm will show you: 
+
+```
+Chosen parameter: steeringRatio
+Current value: 13.0
+
+- Description: Steering Ratio
+- Allowed types: float, int
+
+Enter value: 
+````
+Now you can enter your new steeringRatio. - Let´s say we want to lower it to 12.55. Again conirm by pressing enter.
+```
+Enter value: 12.55
+Saved steeringRatio with value: 12.55! (type: float)
+````
+Your new Value is now set to 12.55.
+DONE! Ejoy you live tuning! 
+
+BTW: For iOS I can recommend the app called `Terminus`.
+here is a video how I use it for live tuning: 
+https://www.youtube.com/watch?v=Oq5caznR1mQ
 
 
 🚌 OVERVIEW 🚌
