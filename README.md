@@ -28,7 +28,7 @@ CHANGES FOR OLD_CAR:
 FEATURES ADDED:
 
 1. 🔥ZORRO CURVATURE LEARNER
-2. 🔥DEVELOPER UI
+2. 🔥DEVELOPER UI (soon)
 3. 🔥LIVE TUNING by ShaneSmiskl
 
 
@@ -38,7 +38,7 @@ to run live tuning, ssh into EON and type in:
 
 `cd /data/openpilot && python op_tune.py`
 
-now it will show you:
+it will show you:
 
 ```
 Welcome to the opParams command line live tuner!
@@ -52,8 +52,8 @@ Choose a parameter to tune:
 >>
 ````
 
-Now you can enter the Numer of the Value you want to tune. Let´s say we want to set steeringRatio (6).
-Press enter to confirm. The Programm will show you: 
+please enter the number of the parameter you want to tune. Let's say we want to set steeringRatio (6).
+Press enter to confirm. The Programm will show: 
 
 ```
 Chosen parameter: steeringRatio
@@ -64,16 +64,16 @@ Current value: 13.0
 
 Enter value: 
 ````
-Now you can enter your new steeringRatio. - Let´s say we want to lower it to 12.55. Again conirm by pressing enter.
+Please enter your new steeringRatio value. - Let's say we want to lower it to 12.55. Again confirm by enter.
 ```
 Enter value: 12.55
 Saved steeringRatio with value: 12.55! (type: float)
 ````
-Your new Value is now set to 12.55.
+Your new Value is 12.55.
 DONE! Ejoy you live tuning! 
 
 BTW: For iOS I can recommend the app called `Terminus`.
-here is a video how I use it for live tuning: 
+Here is a video how I use it for live tuning: 
 https://www.youtube.com/watch?v=Oq5caznR1mQ
 
 
