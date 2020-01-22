@@ -1,6 +1,7 @@
 from common.numpy_fast import interp
 import numpy as np
 from cereal import log
+from common.op_params import opParams
 
 # CAMERA_OFFSET = 0.00 # m from center car to camera *** WE ADJUST OFFSET LIVE IN op_params ***
 
