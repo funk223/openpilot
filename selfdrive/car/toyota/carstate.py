@@ -153,7 +153,7 @@ class CarState():
     self.standstill = not v_wheel > 0.001
 
     if self.CP.carFingerprint == CAR.OLD_CAR:
-      self.angle_steers = -(cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] + cp.vl["STEER_ANGLE_SENSOR"]['STEER_FRACTION']) # because angle sensor is mounted upsidedown oin some old_cars
+       self.angle_steers = -(cp.vl["STEER_ANGLE_SENSOR"]['STEER_ANGLE'] + cp.vl["STEER_ANGLE_SENSOR"]['STEER_FRACTION']) # because angle sensor is mounted upsidedown oin some old_cars
     elif self.CP.carFingerprint in TSS2_CAR:
       self.angle_steers = cp.vl["STEER_TORQUE_SENSOR"]['STEER_ANGLE']
     elif self.CP.carFingerprint in NO_DSU_CAR:
