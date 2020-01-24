@@ -5,6 +5,7 @@ import time
 import numpy as np
 from common.params import Params
 from common.numpy_fast import interp
+from common.op_params import opParams
 
 import cereal.messaging as messaging
 from cereal import car
@@ -16,7 +17,8 @@ from selfdrive.controls.lib.longcontrol import LongCtrlState, MIN_CAN_SPEED
 from selfdrive.controls.lib.fcw import FCWChecker
 from selfdrive.controls.lib.long_mpc import LongitudinalMpc
 
-offset = 10.0 # Speed offset in % (relativ to speed)
+op_params = opParams()
+offset = opParams().get('speed_offset', default=10.0)  # updates live
 osm = True
 MAX_SPEED = 255.0
 NO_CURVATURE_SPEED = 90.0
