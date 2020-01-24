@@ -15,6 +15,7 @@ from selfdrive.controls.lib.speed_smoother import speed_smoother
 from selfdrive.controls.lib.longcontrol import LongCtrlState, MIN_CAN_SPEED
 from selfdrive.controls.lib.fcw import FCWChecker
 from selfdrive.controls.lib.long_mpc import LongitudinalMpc
+
 offset = 10.0 # Speed offset in % (relativ to speed)
 osm = True
 MAX_SPEED = 255.0
