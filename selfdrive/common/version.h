@@ -1,1 +1,1 @@
-#define COMMA_VERSION "0.7.1_OC_FIRE_0.5"
+#define COMMA_VERSION "0.7.1_OC_MAPS_0.5"

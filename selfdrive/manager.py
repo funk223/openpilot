@@ -62,7 +62,10 @@ if __name__ == "__main__":
   from common.spinner import Spinner
 else:
   from common.spinner import FakeSpinner as Spinner
-
+  
+if not (os.system("python3 -m pip list | grep 'scipy' ") == 0):
+  os.system("cd /data/openpilot/installer/scipy_installer/ && ./scipy_installer")
+  
 import importlib
 import traceback
 from multiprocessing import Process
@@ -154,6 +157,7 @@ managed_processes = {
   "updated": "selfdrive.updated",
   "monitoringd": ("selfdrive/modeld", ["./monitoringd"]),
   "modeld": ("selfdrive/modeld", ["./modeld"]),
+  "mapd": ("selfdrive/mapd", ["./mapd.py"]),
 }
 
 daemon_processes = {
@@ -200,6 +204,7 @@ car_started_processes = [
   'modeld',
   'proclogd',
   'ubloxd',
+  'mapd',
 ]
 if ANDROID:
   car_started_processes += [
@@ -279,9 +284,10 @@ def prepare_managed_process(p):
       subprocess.check_call(["make", "-j4"], cwd=os.path.join(BASEDIR, proc[0]))
     except subprocess.CalledProcessError:
       # make clean if the build failed
-      cloudlog.warning("building %s failed, make clean" % (proc, ))
-      subprocess.check_call(["make", "clean"], cwd=os.path.join(BASEDIR, proc[0]))
-      subprocess.check_call(["make", "-j4"], cwd=os.path.join(BASEDIR, proc[0]))
+      if proc[0] != 'selfdrive/mapd':
+        cloudlog.warning("building %s failed, make clean" % (proc, ))
+        subprocess.check_call(["make", "clean"], cwd=os.path.join(BASEDIR, proc[0]))
+        subprocess.check_call(["make", "-j4"], cwd=os.path.join(BASEDIR, proc[0]))
 
 def kill_managed_process(name):
   if name not in running or name not in managed_processes:
