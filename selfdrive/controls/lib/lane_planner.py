@@ -1,8 +1,9 @@
 from common.numpy_fast import interp
 import numpy as np
 from cereal import log
+from common.op_params import opParams
 
-CAMERA_OFFSET = 0.00  # m from center car to camera
+# CAMERA_OFFSET = 0.00  # we set in Live Tuning
 
 def compute_path_pinv(l=50):
   deg = 3
@@ -70,6 +71,7 @@ class LanePlanner():
       self.r_lane_change_prob = md.meta.desirePrediction[log.PathPlan.Desire.laneChangeRight - 1]
 
   def update_d_poly(self, v_ego):
+    CAMERA_OFFSET = opParams().get('camera_offset', default=0.0)  # updates live
     # only offset left and right lane lines; offsetting p_poly does not make sense
     self.l_poly[3] += CAMERA_OFFSET
     self.r_poly[3] += CAMERA_OFFSET
