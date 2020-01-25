@@ -31,7 +31,8 @@ class opParams:
                            'lat_P': {'default':  0.3, 'allowed_types': [float, int], 'description': 'Lat tuning P', 'live': True},
                            'lat_I': {'default':  0.05, 'allowed_types': [float, int], 'description': 'Lat tuning I', 'live': True},
                            'long_P': {'default':  0.5, 'allowed_types': [float, int], 'description': 'Long tuning P', 'live': True}, #
-                           'long_I': {'default':  0.12, 'allowed_types': [float, int], 'description': 'Long tuning I', 'live': True}} #
+                           'long_I': {'default':  0.12, 'allowed_types': [float, int], 'description': 'Long tuning I', 'live': True},
+                           'speed_offset': {'default':  10.00, 'allowed_types': [float, int], 'description': 'Speed offset in percent', 'live': True}} #
 
     self.params = {}
     self.params_file = "/data/op_params.json"
