@@ -27,12 +27,12 @@ def read_params(params_file, default_params):
 class opParams:
   def __init__(self):
     self.default_params = {'camera_offset': {'default': 0.00, 'allowed_types': [float, int], 'description': 'EON camera out of center in m', 'live': True},  # float and int is important
-                           'long_P': {'default': 0.5, 'allowed_types': [float, int], 'longitudinalTuning P': '', 'live': True},
-                           'long_I': {'default': 0.12, 'allowed_types': [float, int], 'longitudinalTuning I': '', 'live': True},
-                           'steer_ratio': {'default': 13., 'allowed_types': [float, int], 'description': '', 'live': True},
-                           'lat_P': {'default': 0.3, 'allowed_types': [float, int], 'lateralTuning P': '', 'live': True},
-                           'lat_I': {'default': 0.05, 'allowed_types': [float, int], 'lateralTuning I': '', 'live': True,
-                           'speed_offset': {'default': 1.00, 'allowed_types': [float, int], 'Speed offset in percent': '', 'live': True}} #
+                           'long_P': {'default': 0.5, 'allowed_types': [float, int], 'description': 'longitudinalTuning P', 'live': True},
+                           'long_I': {'default': 0.12, 'allowed_types': [float, int], 'description': 'longitudinalTuning I', 'live': True},
+                           'steer_ratio': {'default': 13., 'allowed_types': [float, int], 'description': 'steeringRatio', 'live': True},
+                           'lat_P': {'default': 0.3, 'allowed_types': [float, int], 'description': 'lateralTuning P', 'live': True},
+                           'lat_I': {'default': 0.05, 'allowed_types': [float, int], 'description': 'lateralTuning I', 'live': True,
+                           'speed_offset': {'default': 10.00, 'allowed_types': [float, int], 'description': 'Speed offset in percent', 'live': True}} #
 
     self.params = {}
     self.params_file = "/data/op_params.json"
