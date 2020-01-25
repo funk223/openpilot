@@ -32,7 +32,7 @@ class opParams:
                            'steer_ratio': {'default': 13., 'allowed_types': [float, int], 'description': '', 'live': True},
                            'lat_P': {'default': 0.3, 'allowed_types': [float, int], 'lateralTuning P': '', 'live': True},
                            'lat_I': {'default': 0.05, 'allowed_types': [float, int], 'lateralTuning I': '', 'live': True,
-                           'speed_offset': {'default': 10.00, 'allowed_types': [float, int], 'Speed offset in percent': '', 'live': True}} #
+                           'speed_offset': {'default': 1.00, 'allowed_types': [float, int], 'Speed offset in percent': '', 'live': True}} #
 
     self.params = {}
     self.params_file = "/data/op_params.json"
