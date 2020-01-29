@@ -171,7 +171,8 @@ If you have a manual transmition, do the same for clutch pedal.
 ----
 ## Steering Angle Sensor
 
-I am using the stock steering angle sensor out of a toyota corolla / rav4.
+I am using the stock steering angle sensor out of a toyota corolla / rav4. Part Number 89245-02080. 
+Make sure, that you buy the one with the one with a grey inner circle.
 I highly recommend buying it with the hair spring attached. Also we do not need the hair spring, it takes care of the sensor while shipping.
 Fortunatley the sensor provides it's own ECU. Therefor it is like plug and play. 
 
