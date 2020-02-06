@@ -30,9 +30,10 @@ class opParams:
                            'steeringRatio': {'default':  13., 'allowed_types': [float, int], 'description': 'Steering Ratio', 'live': True},
                            'lat_P': {'default':  0.3, 'allowed_types': [float, int], 'description': 'Lat tuning P', 'live': True},
                            'lat_I': {'default':  0.05, 'allowed_types': [float, int], 'description': 'Lat tuning I', 'live': True},
-                           'long_P': {'default':  0.5, 'allowed_types': [float, int], 'description': 'Long tuning P', 'live': True}, #
-                           'long_I': {'default':  0.12, 'allowed_types': [float, int], 'description': 'Long tuning I', 'live': True},
-                           'speed_offset': {'default':  10.00, 'allowed_types': [float, int], 'description': 'Speed offset in percent', 'live': True}} #
+                           'reset_integral': {'default': False, 'allowed_types': [bool], 'description': 'This resets integral whenever the longitudinal PID error crosses or is zero.\nShould help it recover from overshoot quicker', 'live': False},
+                           'long_ki': {'default': 0.12, 'allowed_types': [float, int], 'live': True},
+                           'long_kp': {'default': 0.5, 'allowed_types': [float, int], 'live': True},
+                           'long_kf': {'default': 1., 'allowed_types': [float, int], 'live': True}}
 
     self.params = {}
     self.params_file = "/data/op_params.json"
