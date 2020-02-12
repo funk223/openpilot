@@ -226,10 +226,10 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.OLD_CAR:
       stop_and_go = True
       ret.safetyParam = 100
-      ret.wheelbase = 2.455
-      ret.steerRatio = 15.0
+      ret.wheelbase = 3.0
+      ret.steerRatio = 16.2
       tire_stiffness_factor = 0.444
-      ret.mass = 6200.0 * CV.LB_TO_KG + STD_CARGO_KG
+      ret.mass = 4730.0 * CV.LB_TO_KG + STD_CARGO_KG
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.3], [0.05]]
       ret.lateralTuning.pid.kf = 0.00007   # full torque for 20 deg at 80mph means 0.00007818594
 
